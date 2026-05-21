@@ -1,292 +1,218 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Amaretto Sour Invitation</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1a0e06;
-    font-family: 'Cormorant Garamond', serif;
-    overflow: hidden;
-  }
-
-  .bg {
-    position: fixed; inset: 0;
-    background:
-      radial-gradient(ellipse at 20% 50%, rgba(180, 80, 10, 0.18) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 30%, rgba(210, 120, 20, 0.12) 0%, transparent 50%),
-      #1a0e06;
-  }
-
-  .noise {
-    position: fixed; inset: 0;
-    opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    pointer-events: none;
-  }
-
-  .ticket {
-    position: relative;
-    width: 340px;
-    background: linear-gradient(145deg, #2a1505, #1e0e04);
-    border: 1px solid rgba(210, 140, 50, 0.3);
-    border-radius: 2px;
-    padding: 48px 40px 44px;
-    text-align: center;
-    box-shadow:
-      0 0 0 1px rgba(0,0,0,0.5),
-      0 30px 80px rgba(0,0,0,0.6),
-      inset 0 1px 0 rgba(220, 160, 60, 0.15);
-    animation: fadeUp 0.8s ease both;
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .ticket::before {
-    content: '';
-    position: absolute;
-    left: 0; right: 0;
-    top: 50%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(210,140,50,0.2), transparent);
-    pointer-events: none;
-  }
-
-  .notch {
-    position: absolute;
-    width: 18px; height: 18px;
-    background: #1a0e06;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    border: 1px solid rgba(210,140,50,0.15);
-  }
-  .notch.left { left: -9px; }
-  .notch.right { right: -9px; }
-
-  .label {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    font-size: 10px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(210, 140, 50, 0.6);
-    margin-bottom: 18px;
-  }
-
-  .drink-icon {
-    font-size: 38px;
-    margin-bottom: 14px;
-    display: block;
-    filter: drop-shadow(0 0 12px rgba(210,140,50,0.3));
-    animation: float 3s ease-in-out infinite;
-  }
-  @keyframes float {
-    0%,100% { transform: translateY(0); }
-    50%      { transform: translateY(-5px); }
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 26px;
-    font-weight: 700;
-    color: #e8c87a;
-    letter-spacing: 0.5px;
-    line-height: 1.2;
-    margin-bottom: 6px;
-  }
-
-  .subtitle {
-    font-size: 13px;
-    font-weight: 300;
-    color: rgba(220, 180, 100, 0.5);
-    letter-spacing: 1px;
-    margin-bottom: 32px;
-    font-style: italic;
-  }
-
-  .divider {
-    width: 40px; height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(210,140,50,0.4), transparent);
-    margin: 0 auto 32px;
-  }
-
-  .claim-btn {
-    display: inline-block;
-    width: 100%;
-    padding: 15px 0;
-    background: linear-gradient(135deg, #c07a20, #9a5e10);
-    color: #fff8ec;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 1px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 20px rgba(180, 100, 10, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .claim-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .claim-btn:hover::before { opacity: 1; }
-  .claim-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 28px rgba(180, 100, 10, 0.45);
-  }
-  .claim-btn:active { transform: translateY(0); }
-
-  .claim-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  .success {
-    display: none;
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .success-icon {
-    font-size: 36px;
-    display: block;
-    margin-bottom: 12px;
-  }
-
-  .success h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    color: #e8c87a;
-    margin-bottom: 8px;
-  }
-
-  .success p {
-    font-size: 13px;
-    color: rgba(220, 180, 100, 0.55);
-    font-style: italic;
-    line-height: 1.6;
-  }
-
-  .status-msg {
-    margin-top: 14px;
-    font-size: 11px;
-    color: rgba(210,140,50,0.5);
-    letter-spacing: 1px;
-    min-height: 16px;
-  }
-
-  .spinner {
-    display: inline-block;
-    width: 12px; height: 12px;
-    border: 2px solid rgba(210,140,50,0.3);
-    border-top-color: #c07a20;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  .ticket-num {
-    font-size: 10px;
-    letter-spacing: 3px;
-    color: rgba(210,140,50,0.25);
-    margin-top: 28px;
-  }
-</style>
-</head>
-<body>
-<div class="bg"></div>
-<div class="noise"></div>
-
-<div class="ticket">
-  <div class="notch left"></div>
-  <div class="notch right"></div>
-
-  <div id="main-content">
-    <div class="label">One Evening · One Offer</div>
-    <span class="drink-icon">🍹</span>
-    <h1>Amaretto Sours</h1>
-    <p class="subtitle">a standing invitation</p>
-    <div class="divider"></div>
-
-    <button class="claim-btn" id="claimBtn" onclick="handleClaim()">Claim</button>
-    <div class="status-msg" id="statusMsg"></div>
-    <div class="ticket-num">№ 001 — Limited</div>
-  </div>
-
-  <div class="success" id="successContent">
-    <span class="success-icon">✉️</span>
-    <h2>Claimed.</h2>
-    <p>Your request has been sent.<br>Expect to hear back soon.</p>
-  </div>
-</div>
-
-<script>
-async function handleClaim() {
-  const btn = document.getElementById('claimBtn');
-  const statusMsg = document.getElementById('statusMsg');
-
-  btn.disabled = true;
-  statusMsg.innerHTML = '<span class="spinner"></span>Sending...';
-
-  try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
-        max_tokens: 1000,
-        messages: [{
-          role: "user",
-          content: "Send an email to Sebastianoriva02@gmail.com with subject 'Someone claimed their Amaretto Sours! 🍹' and body: 'Hey Seb! Someone has claimed their Amaretto Sours and wants to schedule a date. Time to make a plan! 🍹✨'. Use the Gmail MCP tool to send it. Just send it, no explanation needed."
-        }],
-        mcp_servers: [{
-          type: "url",
-          url: "https://gmailmcp.googleapis.com/mcp/v1",
-          name: "gmail-mcp"
-        }]
-      })
-    });
-
-    const data = await response.json();
-    console.log("API response:", JSON.stringify(data));
-
-    if (data.error) {
-      throw new Error(data.error.message || 'API error');
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fdf8f3;
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow: hidden;
     }
 
-    // Show success state
-    document.getElementById('main-content').style.display = 'none';
-    const successEl = document.getElementById('successContent');
-    successEl.style.display = 'block';
+    .card {
+      background: #ffffff;
+      border: 1px solid #e8e0d8;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      position: relative;
+      z-index: 2;
+    }
 
-  } catch (err) {
-    console.error(err);
-    statusMsg.textContent = 'Something went wrong. Try again.';
-    btn.disabled = false;
-  }
-}
-</script>
+    .glass-icon {
+      font-size: 56px;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1008;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #6b5e52;
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+
+    .recipe {
+      background: #fdf3eb;
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1.75rem;
+      font-size: 13px;
+      color: #7a6455;
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    .recipe strong {
+      color: #3d2b1f;
+      font-weight: 600;
+    }
+
+    .btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      position: relative;
+      min-height: 44px;
+    }
+
+    .btn-yes {
+      background: #D85A30;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-yes:hover { background: #BA4A22; }
+    .btn-yes:active { transform: scale(0.97); }
+
+    .btn-no {
+      background: transparent;
+      color: #888;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px 24px;
+      font-size: 15px;
+      cursor: pointer;
+      font-family: inherit;
+      position: fixed;
+      white-space: nowrap;
+      z-index: 999;
+      user-select: none;
+      transition: none;
+    }
+
+    .form-area.hidden { display: none; }
+
+    .success {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .success.show { display: flex; }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.7); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    .success-icon { font-size: 64px; }
+
+    .success-title {
+      font-size: 28px;
+      font-weight: 600;
+      color: #1a1008;
+    }
+
+    .success-sub {
+      font-size: 15px;
+      color: #6b5e52;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="card">
+    <div class="form-area" id="formArea">
+      <span class="glass-icon">🍹</span>
+      <h1 class="title">You. Me. Amaretto Sours.</h1>
+      <p class="subtitle">I'm formally requesting the pleasure of your company for the finest drink known to humanity.</p>
+      <div class="recipe">
+        <strong>On the menu tonight</strong><br>
+        45ml amaretto · 30ml fresh lemon juice<br>
+        15ml simple syrup · egg white for froth<br>
+        Shaken hard. Garnished with a cherry.<br>
+        <em>Just like this invitation — sweet, sharp &amp; irresistible.</em>
+      </div>
+      <div class="btns" id="btns">
+        <button class="btn-yes" id="yesBtn">Yes, obviously 🍒</button>
+        <button class="btn-no" id="noBtn">No thanks</button>
+      </div>
+    </div>
+
+    <div class="success" id="success">
+      <span class="success-icon">🍒</span>
+      <p class="success-title">Good girl.</p>
+      <p class="success-sub">Knew you'd come around.<br>See you tonight — I'll be the one at the bar. 😏</p>
+    </div>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const formArea = document.getElementById('formArea');
+    const success = document.getElementById('success');
+
+    const margin = 24;
+
+    function placeNoBtnNear() {
+      const btns = document.getElementById('btns');
+      const rect = btns.getBoundingClientRect();
+      noBtn.style.left = (rect.right - noBtn.offsetWidth - 8) + 'px';
+      noBtn.style.top = (rect.top + window.scrollY + (rect.height - noBtn.offsetHeight) / 2) + 'px';
+    }
+
+    window.addEventListener('load', () => setTimeout(placeNoBtnNear, 100));
+
+    function flee() {
+      const bw = window.innerWidth;
+      const bh = window.innerHeight;
+      const bw2 = noBtn.offsetWidth;
+      const bh2 = noBtn.offsetHeight;
+
+      const maxX = bw - bw2 - margin;
+      const maxY = bh - bh2 - margin;
+      const curX = parseFloat(noBtn.style.left) || bw / 2;
+      const curY = parseFloat(noBtn.style.top) || bh / 2;
+
+      let newX, newY, attempts = 0;
+      do {
+        newX = margin + Math.random() * (maxX - margin);
+        newY = margin + Math.random() * (maxY - margin);
+        attempts++;
+      } while (Math.abs(newX - curX) < 120 && Math.abs(newY - curY) < 80 && attempts < 10);
+
+      noBtn.style.left = newX + 'px';
+      noBtn.style.top = newY + 'px';
+    }
+
+    noBtn.addEventListener('mouseenter', flee);
+    noBtn.addEventListener('mousemove', flee);
+
+    yesBtn.addEventListener('click', () => {
+      noBtn.style.display = 'none';
+      formArea.classList.add('hidden');
+      success.classList.add('show');
+    });
+  </script>
+
 </body>
 </html>
