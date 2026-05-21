@@ -27,7 +27,7 @@
   .noise {
     position: fixed; inset: 0;
     opacity: 0.04;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'%3E%3C/feTurbulence%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='256' height='256' fill='white' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctave[...]
     pointer-events: none;
   }
 
@@ -150,16 +150,17 @@
   }
 
   .claim-btn:hover::before { opacity: 1; }
-  .claim-btn:hover {
+  .claim-btn:hover:not(:disabled) {
     transform: translateY(-1px);
     box-shadow: 0 8px 28px rgba(180, 100, 10, 0.45);
   }
-  .claim-btn:active { transform: translateY(0); }
+  .claim-btn:active:not(:disabled) { transform: translateY(0); }
 
   .claim-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+    background: linear-gradient(135deg, #7a9e5e, #5a7e3e);
   }
 
   .success {
@@ -245,6 +246,18 @@
     font-size: 44px;
     margin-bottom: 16px;
     display: block;
+    animation: scaleIn 0.5s ease;
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 
   .modal-content h2 {
@@ -304,7 +317,7 @@
     <p class="subtitle">a standing invitation</p>
     <div class="divider"></div>
 
-    <button class="claim-btn" id="claimBtn" onclick="handleClaim()">Claim</button>
+    <button class="claim-btn" id="claimBtn">Claim</button>
     <div class="ticket-num">№ 001 — Limited</div>
   </div>
 </div>
@@ -315,29 +328,28 @@
     <span class="modal-icon">✓</span>
     <h2>Ticket Claimed!</h2>
     <p>Your ticket has been claimed.<br>The host will reach out to you soon.</p>
-    <button class="modal-btn" onclick="closeModal()">Close</button>
+    <button class="modal-btn" id="closeBtn">Close</button>
   </div>
 </div>
 
 <script>
-function handleClaim() {
-  const btn = document.getElementById('claimBtn');
-  btn.disabled = true;
-  
-  // Show the modal popup
-  const modal = document.getElementById('modalOverlay');
-  modal.classList.add('show');
-}
+const claimBtn = document.getElementById('claimBtn');
+const modalOverlay = document.getElementById('modalOverlay');
+const closeBtn = document.getElementById('closeBtn');
 
-function closeModal() {
-  const modal = document.getElementById('modalOverlay');
-  modal.classList.remove('show');
-}
+claimBtn.addEventListener('click', function() {
+  claimBtn.disabled = true;
+  claimBtn.textContent = 'Claimed ✓';
+  modalOverlay.classList.add('show');
+});
 
-// Close modal when clicking outside of it
-document.getElementById('modalOverlay').addEventListener('click', function(e) {
+closeBtn.addEventListener('click', function() {
+  modalOverlay.classList.remove('show');
+});
+
+modalOverlay.addEventListener('click', function(e) {
   if (e.target === this) {
-    closeModal();
+    modalOverlay.classList.remove('show');
   }
 });
 </script>
